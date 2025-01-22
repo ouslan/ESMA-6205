@@ -1,0 +1,94 @@
+---
+title: "Introduction to Linear Models"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+```{python}
+import os
+os.chdir("..")
+```
+
+```{python}
+import numpy as np
+```
+
+
+
+# Introduction to Linear Algebra
+
+- We will use $n$ to denote the number of observations or units in our sample and use $p$ 
+  to denote the number of variables measured on each unit.
+- In this courses, bold uppercase letters are typically used to denote matrices, and bold 
+  lowercase letters are typically used to denote vectors.
+- R and Python are two of the most widely used programming languages in the field of data 
+  science, machine learning, and statistical computing.
+- Gained immense popularity due to their versatility, extensive livraries, and active community 
+  support.
+- Many researchers and practitioners now adopt a hyprid approach leveragiing the strengths of 
+  both languages.
+
+## Python 
+
+- General- purpose language that's good for a variety of use cases, including machine learning, web development, 
+  and large-scale application
+- Python is considered easy to learn, especially for those wiht experience in Java or C++.
+- You ccan install Anaconda, which is a package manager, environment manager, and Python distribution with many 
+  third party FOSS packages.
+
+## R 
+
+- Primarily used for statistical analysis and  data visualization.
+- R is well-suited for data scientists and researhers who want to explore and present data.
+- It has powerful packages for data analysis and visualization
+
+# Vactor and Matrix 
+
+- Vector 
+  $$\mathbf(x)_{p \times 1} = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_p \end{bmatrix}$$
+- Matrix 
+  $$\mathbf{X}_{n \times p} = \begin{bmatrix} x_{11} & x_{12} & \cdots & x_{1p} \\ x_{21} & x_{22} & \cdots & x_{2p} \\ \vdots & \vdots & \ddots & \vdots \\ x_{n1} & x_{n2} & \cdots & x_{np} \end{bmatrix}$$
+
+## Some properties about matrices
+
+- A square matrix is symmetric if $A = A^T$
+- If a square matrix $A$ has elements $a_{ij}$, then $A$ is symetric if $a_{ij} = a_{ji}$. 
+- The transpose of the column vector $x_{p \times 1}$ is row vector.
+  $$x^T = \begin{bmatrix} x_1 & x_2 & \cdots & x_p \end{bmatrix}$$
+
+```{r}
+set.seed(787)
+A <- matrix(rnorm(n=25), nrow=5, ncol=5)
+A
+```
+
+```{r}
+np.random.seed(787)
+A = np.random.normal(size=(5,5))
+A
+```
+
+## Basic Concepts of Matrix Alebra 
+
+- Two vectors can be added if they have the same dimension.
+$$ \mathbf{X} + \mathbf{Y} = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_p \end{bmatrix} + \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_p \end{bmatrix} = \begin{bmatrix} x_1 + y_1 \\ x_2 + y_2 \\ \vdots \\ x_p + y_p \end{bmatrix}$$pip install pynvim jupyter_client cairosvg plotly kaleido pnglatex pyperclip
+
+- A vector can be added if they have the same dimension. 
+  $$c \cdots \mathbf{X} = \begin{bmatrix} c \cdot x_1 \\ c \cdot x_2 \\ \vdots \\ c \cdot x_p \end{bmatrix}$$
+
+## Examples: Vector Operations 
+
+1. Transpose:
+$$\mathbf{X} = \begin{bmatrix} 2 \\ 1 \\ -4 \end{bmatrix = \begin{bmatrix} 2 & 1 & -4 \end{bmatrix}$$
+
+```{python}
+x = np.array([[1,2,3], [4,0,4], [1,0,1]])
+np.linalg.matrix_rank(x)
+
+```
+
+$GAG = G$
+
+
