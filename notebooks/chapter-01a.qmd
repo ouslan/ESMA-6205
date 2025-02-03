@@ -56,3 +56,18 @@ Like manyh choices in life, frequentist and bayesian.
 - Linear models are a fundamentals in statistics, data sciences and machine learning to understand relationships between variables.
 - Linear reltionhsip between one or more indepnedant variables (predictors) and a dependent variable (reponse).
 - This simplicity makes them widely applicable, interpetable, and coputationally efficient.
+
+## The Column Space of the Design Matrix
+
+1. $X \beta$ is lunear combination of the columns of $X$. 
+2. The set of all posisvle linear combinaions of the columns of $X$ is called 
+the column space of $X$ and is denoted by 
+3. The Gauss-Markov linear model says $y$ is random vector whose meanis in the column space of $X$. 
+
+## Some exaples Column Space 
+
+1. $X = 1_{n \times 1}$
+
+
+
+

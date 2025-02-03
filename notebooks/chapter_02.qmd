@@ -1,0 +1,66 @@
+---
+title: "Introduction to Linear Models"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+filters:
+  - black-formatter
+---
+
+```{python}
+import os
+os.chdir("..")
+```
+
+```{python}
+import numpy as np
+import pandas as pd
+from numpy.linalg import inv, LinAlgError
+```
+
+```{python}
+cars = pd.read_csv("data/raw/csv") # WARNING: Need to download the data
+
+y = np.array(cars["dist"])
+
+```
+
+## Residual (error term)
+
+- We can define the residual (or error) as follow, 
+  $$\epsilon = y - X \beta$$
+
+$$
+\begin{split}
+\epsilon = y-X \beta \\ 
+\hat{\beta} \implies \hat{\epsilon} y - X\hat{\beta} \\
+\implies \hat{y} \\
+E[\hat{\epsilon}] = E[y - \hat{y}] = E[y] - E[\hat{y}]
+\end{split}
+$$
+
+
+- Sums of square of the Models (known information)
+$$
+(y - y)^T(\hat{y}- y) = \sum^n_{i=1}(y_i - y) = ||\hat{y}- ||^2
+$$
+- Total sum of square  (unknown information)
+$$
+\implies ||y - y||^2 \sum^n_{i=1}(y_i-\hat{y})^2
+$$
+- Sums of - sums of the error (combination of both)
+$$
+\begin{split}
+||\hat{E}||^2 = ||y- C\hat{beta}||^2 = \sum_i^n(y_i-\hat{y})^2 \\
+\end{split}
+$$
+$TSS=SS_{Models} + SS_{error}$
+
+## Estimation of Variance
+- We can fin a estimates for the variance $\sigma^2$ based on the solution of the normal equations
+
+$$
+\begin{split}
+\end{split}
+$$
