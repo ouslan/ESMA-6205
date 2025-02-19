@@ -1,0 +1,90 @@
+---
+title: "ESMA 6205: Homework 1"
+author: "Alejandro Ouslan"
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    fig-align: "center"
+---
+
+# Instructions
+
+Homework should be presented in a clear manner, not scratch notes paper will be allow. The home-
+work solution format will be .docx, .doc and .pdf. You can also add your code as part of the supple-
+mental material. You must include (if any) your code, but do not include a screenshot of the software
+input/output. Outputs may contain irrelevant information for the purpose of the question and can lead
+to a wrong interpretation. To be consider for full credit it will need to submitted before the due date.
+
+# Definition:
+
+1. **Simple Linear regression:** 
+2. **Gauss-Markov Model:**
+3. **Design Matrix $X$**:
+4. **Properties of a projection Matrix $P_{X}$** 
+
+# Problem 2 
+- When asked to state the simple linear regression model, a student wrote it as follows: $E[Y_i] = \beta_0 + \beta_1 x_i + \epsilon_i$ Do you agree?
+
+# Problem 3
+- Evaluate the following statement: "For the least squares method to be fully valid, it is required
+that the distribution of $Y$ be normal."
+
+# Problem 4
+- A person states that $\hat{\beta}_0$ and $\hat{\beta_1}$, in the fitted regression function can be estimated by the method of least squares. Comment.
+
+# Problem 5 
+- The director of admissions of a small college selected 120 students at random from the new freshman class in a study to determine whether a student’s 
+grade point average (GPA) at the end of the freshman year (Y ) can be predicted from the ACT test score (X). The dataset for this study is in call 
+`CH01PR19.txt`` you can download it from the authors website. Assume that the first-order regression model is appropriate.
+
+1. Obtain the least squares estimates of $\beta_0$ and $\beta_1$, and state the estimated regression function. 
+2. Plot the estimated regression function and the data. Does the estimated regression function 
+appear to fit the data well?
+3. Obtain a point estimate of the mean freshman GPA for students with Act Test Score $X = 30$. 
+4. What is the point estimate of the change in the mean response when the entrance test score increases by one point?
+5. Obtain the residuals $\hat{\epsilon}$. Do they sum to zero?
+6. Compute $y^T(I - P_X)y$. What this value call?
+7. Compute $y(I - \frac{1}{n}\begin{bmatrix}1\end{bmatrix}\begin{bmatrix}1\end{bmatrix}^T)$. What this value call?
+8. Estimate $\sigma^2$ and $\sigma$. 
+9. Compute $y^Ty$
+10. Compute $P_Xy$
+10. Compute $P_Xy$. Compare you results with part (b)
+
+# Problem 6
+
+- Sixteen batches of the plastic were made, and from each batch one test item was molded. Each
+test item was randomly assigned to one of the four predetermined time levels, and the hardness
+was measured after the assigned elapsed time. The results are shown below; $X$ is the elapsed time
+in hours, and $Y$ is hardness in Brinell units. Assume that the first-order regression model (1.1) is
+appropriate.
+
+1. Obtain the estimates regression function. Plot the etimated regression function and the data. Does 
+a linear regression function appear to give a good fit hear
+2. Obtain a point estimate of the mean hardness when $X=40$ hours. 
+3. Obtain a point estijmate of the change in mean hardness when $X$ increases by $1$ hour.
+4. obtain the residuals $\hat{\epsilon}$. Do they sum to zero?
+5. Compute $y^T(I - P_X)y$. What this value call?
+6. Compute $y(I - \frac{1}{n}\begin{bmatrix}1\end{bmatrix}\begin{bmatrix}1\end{bmatrix}^T)$. What this value call?
+7. Estimate $\sigma^2$ and $\sigma$. 
+8. Compute $y^Ty$
+9. Compute $P_Xy$. Compare you results with part (b)
+10. suppose one test item was molded from a single batch of plastic and the hardness of this one
+item was measured at 16 different points in time. Would the error term in the regression model
+for this case still reflect the same effects as for the experiment initially described? Would you
+expect the error terms for the different points in time to be uncorrelated? Discuss.
+
+
+# Problem 7 
+A student working on a summer internship in the economic research department of a large corpo-
+ration studied the relation between sales of a product (Y , in million dollars) and population (X,
+in million persons) in the firm’s 50 marketing districts. The normal error regression model (2.1)
+was employed. The student first wished to test whether or not a linear association between Y and
+X existed. The student accessed a simple linear regression program and obtained the following
+information on the regression coefficients:
+
+1. he student concluded from these results that there is a linear association between Y and X.
+Is the conclusion warranted? What is the implied level of significance?
+2. Someone questioned the negative lower confidence limit for the intercept, pointing out that
+dollar sales cannot be negative even if the population in a district is zero. Discuss
