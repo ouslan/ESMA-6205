@@ -1,0 +1,110 @@
+---
+title: "Measure of linear associations"
+format:
+  html:
+    code-fold: true
+---
+
+## Introduction
+
+- We are interested to see if from a observed sample some of the 
+  variables of interest are associated.
+- Measure the strength of the relationship among the sample
+
+## Bivariate Normal Distribution
+
+A random variable $X= (X_1,X_2)' \sim N_2 (\mu, \Sigma)$
+
+$$
+f9x|\mu, \Sigma) = \frac{1}{(2\pi)|\Sigma|^\frac{1}{2}}
+\exp \big{\{} -\frac{1}{2}(x - \mu)'\Sigma^{-1}(x-\mu)
+$$
+
+## Hypothesis testing for the correlation coefficient $\rho$
+
+Let $(X_1, Y_1), \ldots, (X_n, Y_n)$ be a random sample from a bivariate normal distribution.
+
+- Consider the following Hypothesis
+$$
+H_0: \rho = 0 \quad \text{against} \quad H_1: \rho \neq 0
+$$
+
+- Test statistics
+
+| Pearson's correlation | Spearman rank | Kendall's $\tau$ |
+|-----------------------|---------------|------------------|
+| $t = \frac{r\sqrt{n-2}}{\sqrt{1-r^2}}$ | $t = r_s\sqrt{n-2}$ | $z^* = \frac{3\sqrt{n(n-1)}}{2} \tau$ |
+
+- Pearson correlation is also the fisher transormation $\log \frac{}{}
+- Pearson: $t^*$
+
+## Example: Blood pressure measurements 
+
+Pincherle and Robinson (1974) note a marked interobserver variation in
+blood pressure readings. They found that doctors who read high on
+systolic tended to read high on diastolic. Data contains the means systolic
+and diastolic blood pressure readings by 14 doctors. We wish to compute
+a measure of the strength of the relationship. Under the assumptions that
+these 14 doctors constitute a random sample from a population of doctors,
+we wish to known whether we may conclude from the data that there is a
+direct relationship between systolic and diastolic readings
+Example: Blood pressure measurements
+
+| systolic | diastolic |
+|----------|-----------|
+| 142      | 90        |
+| 140      | 74        |
+| 132      | 84        |
+| 132      | 78        |
+| 136      | 86        |
+| 141      | 86        |
+| 144      | 89        |
+| 140      | 89        |
+| 141      | 88        |
+| 132      | 82        |
+| 131      | 85        |
+| 136      | 84        |
+| 144      | 86        |
+| 133      | 86        |
+
+
+### R: Pearson Correlation
+
+```{r}
+systolic <- c(141.8,140.2,131.8,132.5,135.7,141.2,143.9,
+140.2,140.8,131.7,130.8,135.6,143.6,133.2)
+diastolic <- c(89.7,74.4,83.5,77.8,85.5,86.5,89.4,
+89.3,88.0,82.2,84.6,84.4,86.3,85.9)
+## cor(systolic,diastolic,method="pearson")
+cor.test(systolic,diastolic,method = "pearson")
+```
+
+### R: Spearman Rank Correlation
+
+```{r}
+pressure <- cbind(systolic,diastolic)
+ranks <- apply(pressure,2,rank)
+d <- apply(ranks,1,diff); n <- nrow(pressure)
+rs <- 1 - 6* sum(d^2)/(n*(n^2-1))
+c("rs"=rs,"p-value" = pnorm(rs*sqrt(n-1),lower.tail=FALSE))
+```
+- Note that the Spearman is significant but pearson. This might significate that 
+  the relationship is not linear.
+```{r}
+cor.test(systolic,diastolic,method = "spearman")
+```
+- The p-value in the previous e output shows the "true" p-value 
+
+
+### R: Kendall's $\tau$
+
+```{r}
+rk <- cor(systolic,diastolic,method = "kendall")
+c("tau" = rk,"p-value" =pnorm(3*rk*sqrt(n*(n-1)/((2*(2*n+5)))),lower.tail=FALSE))
+```
+
+```{r}
+cor.test(systolic,diastolic,method="kendall")
+```
+
+
