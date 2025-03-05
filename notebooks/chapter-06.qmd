@@ -1,0 +1,53 @@
+---
+title: "Model Diagnostic"
+format:
+  html:
+    code-fold: true
+---
+
+
+## Normal Gauss-markov model assumptions
+
+- $y=X\beta + \ epsilon$
+- $\epsilon \sim N(0, \sigma^2I)$ (normalidad)
+
+
+1. The repression function is no linear
+2. The error terms do not have constant variance.
+3. The error terms are not independent.
+4. Potential outliers observations.
+5. The error terms are not normally distributed.
+
+## Nonlinearity of Regression function
+
+Residual plot against the fitted values
+there are 4 typer of nonlinearity
+
+
+## Nonconstancy of Error Variance and independent
+
+- Plots of the residuals against the fitted values 
+- Breusch-Pagan test 
+- Assume random sample or Durbin-Watson test.
+  - check the independence of the residuals
+
+## Breusch-Pagan test
+
+Determine whether or not hetersedasticity is present in a 
+regression model.
+
+- $H_0$: homoscedasticity against $H_1$: heteroscedasticity
+- Test statistics is defined as 
+  - d
+
+## Durbin-Watson test 
+
+A test for checking auto corrlation in the residuals of a statistical 
+regression analysis. 
+- This is of AAR(1) model $\epsilon_t = \rho \epsilon_{t-1} + \delta$ and $\delta \sim N(0, \sigma^2)$
+
+$$
+R = \begin{bmatrix}
+  1 & 
+\end{bmatrix}
+$$
