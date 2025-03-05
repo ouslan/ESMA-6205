@@ -1,0 +1,110 @@
+---
+title: "Sampling Distributions of the Estimates"
+format:
+  html:
+    code-fold: true
+---
+
+## Introduction 
+
+- We will review some probability distributions functions
+  - Normal Distribution 
+  - Chi-squared distribution
+  - Strudent's t distribution
+  - Snedecor's F distribution
+- Expectations and variance of random variables
+  
+## Normal Distribution
+
+A random variable $X \sim N(\mu, \sigma^2)$ with pdf 
+![Elephant](imege1.png){width=300}
+
+**Note: I should generate this with python**
+
+## R: Fitting the model
+
+Need to load the dataset first
+```{}
+library("MASS")
+x = rats$tempchange_c
+
+```
+
+## R: Confidence interval for rat populations
+```{r}
+```
+
+## R: Confidence interval for $\hat{\beta}$
+
+```{}
+betas.hat <- coef(ml.allergies); qt.v <- qt(p=1-0.)
+```
+
+
+```{}
+#--- Confidenc eInterval 
+confint(m1.rats,level = 0.95)
+confint(m1.rats,level = 0.99)
+```
+
+```{}
+#--- Confidenc eInterval 
+confint(m1.allergies,level = 0.95)
+confint(m1.allergies,level = 0.99)
+```
+
+
+```{}
+y = rats["z"]
+x = rats['tempchange_c']
+X = sm.add_constant(x)
+model_rats = sm.OLS(y, X).fit()
+betas_hat = model_rats.params
+var_beta = model_rats.cov_params()
+df = model_rats.df_resid
+qt_v = t.ppf(1 - 0.05 / 2, df)
+# Confidence interval for the intercept (beta_0)
+ci_intercept = [
+betas_hat[0] - qt_v * np.sqrt(var_beta.loc["const","const"]),
+betas_hat[0] + qt_v * np.sqrt(var_beta.loc["const","const"]),
+]
+## Confidence interval for beta_1 (slope)
+ci_slope = [
+betas_hat[1] - qt_v * np.sqrt(var_beta.loc["tempchange_c","tempchange_c"]),
+betas_hat[1] + qt_v * np.sqrt(var_beta.loc["tempchange_c", "tempchange_c"]),
+]
+print("95% CI for Intercept:", ci_intercept)
+print("95% CI for Slope:", ci_slope)
+````
+
+## Sampling Distribution of $\hat{Y}$
+
+$$
+\begin{split}
+&\implies \hat{Y} + \hat{\beta}_0 + \hat{\beta}_1 X_1 = [ 1x_i]
+\begin{bmatrix} \hat{\beta}_0 \\ \hat{\beta}_1\end{bmatrix}; \hat{y}_{i}() \\
+&\implies E[\hat{y}_c] = E[\hat{\beta}_0 +\hat{\beta}_1 X_i] = E[\hat{\beta}_0] + E[\hat{\beta}_1]X_i = \beta_0 + \beta_1 \\
+&\implies Var[\hat{y}_c] = Var[\hat{\beta}_0 +\hat{\beta}_1 X_i] = Var[\hat{\beta}_0] + Var[\hat{\beta}_1]X_i = \sigma^2 + X_i^2\sigma^2 \\
+&\implies y = X\beta + \epsilon ; y \sim N(X\beta, \sigma^2I) \\
+&\implies \hat{y} = X\hat{\beta} ; \hat{y} = X(X^TX)^{-1}X^Ty = Pxy \\
+&\implies E[\hat{y}] = E[X\hat{\beta}] = XE[\hat{\beta}] = X\beta \\ 
+&\implies Var[\hat{y}] = Var[X\hat{\beta}] = XVar[\hat{\beta}]X^T = \sigma^2X(X^TX)^{-1}X^T = \sigma^2P_x \\
+\end{split}  
+$$
+
+$$
+\begin{split}
+&\implies \hat{y} \sim N(X\beta, X\sigma_\beta X^T) \\
+&\implies \hat{y} \sim N(X\beta, \sigma^2 X(X^TX)^{-1}X^T) \\
+&\implies 
+\end{split}
+$$
+
+
+- 
+$$
+$$
+
+
+
+
