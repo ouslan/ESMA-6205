@@ -43,7 +43,7 @@ that the distribution of $Y$ be normal."
 # Problem 5 
 - The director of admissions of a small college selected 120 students at random from the new freshman class in a study to determine whether a student’s 
 grade point average (GPA) at the end of the freshman year (Y ) can be predicted from the ACT test score (X). The dataset for this study is in call 
-`CH01PR19.txt`` you can download it from the authors website. Assume that the first-order regression model is appropriate.
+`CH01PR19.txt` you can download it from the authors website. Assume that the first-order regression model is appropriate.
 
 ```{python}
 import numpy as np

@@ -19,16 +19,24 @@ to a wrong interpretation. To be consider for full credit it will need to submit
 
 # Definition:
 
-- **Sampling distribution of $\hat{\beta}$:**
-- **Confidence interval:**
-- **Predidiction interval:**
-- **Hupothesis testing:**
-- **Properties of the F-test:**
+- **Sampling distribution of $\hat{\beta}$:** The sampling distribution of $\hat{\beta}$ is the distribution of the
+  estimated regression coefficients that would be obtained if an infinite number of samples were drawn
+  from the population and a regression model were estimated for each sample.
+- **Confidence interval:** The confidence interval is a range of values that is likely to contain the true
+  value of the parameter
+- **Predidiction interval:** The prediction interval is a range of values that is likely to contain the value of
+  a new observation.
+- **Hupothesis testing:** The hypothesis testing in regression are used to determine whether or not a
+  significant linear relationship exists between the dependent variable and one or more independent
+  variables.
+- **Properties of the F-test:** The F-test is used to test the overall significance of the regression model.
+  The null hypothesis is that all the slope coefficients are equal to zero. The alternative hypothesis 
+  is that at least one of the slope coefficients is not equal to zero.
 
 # Problem 2 
 
 A member of a student team playing an interactive marketing game received the following computer
-output when studying the relation between advertising expenditures (X) and sales (Y ) for one of
+output when studying the relation between advertising expenditures (X) and sales (Y) for one of
 the team’s products
 - Estimated regression equation $\hat{y} = 350.7 - 0.18X$
 - Two-sided p-value for estimated slope: $0.91$
@@ -36,7 +44,10 @@ the team’s products
 The student stated: “The message I get here is that the more we spend on advertising this product,
 the few units we sell!” Comment.
 
-# Problem 3 
+**Answer:** Given that the p-value is $0.91$ we can conclude that the there is a linear relationship between
+the advertising expenditures and the sales.
+
+# Problem 3
 
 The director of admissions of a small college selected 120 students at random from the new freshman
 class in a study to determine whether a student’s grade point average (GPA) at the end of the
@@ -44,21 +55,95 @@ freshman year ($Y$) can be predicted from the ACT test score ($X$). The dataset 
 in call `CH01PR19.txt` you can download it from the authors website. Assume that the first-order
 regression model is appropriate.
 
+```{python}
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+from statsmodels.formula.api import ols
+from scipy import stats
+df = pd.read_csv("CH01PR19.txt")
+y, x = df["gpa"], df["act"]
+model = sm.OLS(y, X).fit()
+```
+
 - Obtain a 99 percent confidence interval for $\beta_1$. Interpret your confidence interval. Does it
   include zero? Why might the director of admissions be interested in whether the confidence
   interval includes zero?
-- Test, using the test statiistic $t^*$, whether or not a linear association exists between studdent's
-  ACT score ($X$) and GPA at the end of the freshmn year ($Y$). Use a level of significance of $\alpha 0.01$
-  State the alternative, decision rule, and conclusion.
+
+```{python}
+betas_hat = model.params
+var_beta = model.cov_params()
+df = model.df_resid
+t = stats.t
+qt_v = t.ppf(1 - 0.01 / 2, df)
+ci_slope = [
+round(float(betas_hat[1] - qt_v * np.sqrt(var_beta[1][1])),3),
+round(float(betas_hat[1] + qt_v * np.sqrt(var_beta[1][1])),3),
+]
+print("95% CI for Slope:", ci_slope)
+```
+
+**Answer:** Given that the ci does not include zero we conclude that there is a positive relationship between
+ACT score and GPA.
+
+- Test, using the test statistic $t^*$, whether or not a linear association exists between student's
+  ACT score (X) and GPA at the end of the freshman year (Y). Use a level of significance of
+  $\alpha = 0.01$. State the alternatives, decision rule, and conclusion.
+
+```{python}
+t_star = betas_hat[1] / np.sqrt(var_beta[1][1])
+p_value = 2 * (1 - t.cdf(np.abs(t_star), df))
+print("t*:", round(t_star, 4))
+print("p-value:", round(p_value, 4))
+```
+
+**Answer:** Given that the p-value is less than $\alpha$ we reject the null hypothesis and conclude that there
+is a linear relationship between ACT score and GPA.
+
 - What is the p-value of your test in part(b)? How does it support the conclusion reached in part(b)?
+
+**Answer:** The p-value is $0.0$ and it supports the conclusion reached in part (b) because it is less than $\alpha$.
+
 - Set up the ANOVA table.
+
+```{python}
+model = ols(' gpa ~ act', data=df).fit()
+anova_table = sm.stats.anova_lm(model, typ=2)
+print(anova_table)
+```
+
 - What is estimated by $MS_{model}$ in you ANOVA table? by $MS_{error}$?
+
+**Answer:** $MS_{model}$ is the mean square for the model and $MS_{error}$ is the mean square for the error.
+
+
 - Conduct an $F$ test of whether or not $\beta_1 = 0$. State the alternative, decision rule, and 
   conclusion.
+
+```{python}
+f_star = (model.mse_model / model.mse_resid)
+p_value = 1 - stats.f.cdf(f_star, model.df_model, model.df_resid)
+print("F*:", f_star)
+print("p-value:", p_value)
+```
+
 - What is the absolute magnitude of the reduciton in the variation of $Y$ when $X$ is introduced into 
   the regression model? What is the relative reduction? What is the name of the latter measure?
+
+**Answer:** The relative reduction is the $R^2$ and the absolute reduction is the $MS_{model}$.
+
 - Obtain $r$ and attach the appropriate sign.
+
+```{python}
+r = np.sqrt(model.rsquared)
+print("r:", r)
+```
+
 - Which measure, $R^2$ or $r$, has the more clear-cut operation interpretation? Explain.
+
+**Answer:** $R^2$ has a more clear-cut operation interpretation because it is the proportion of the variance in the
+dependent variable that is predictable from the independent variable.
 
 # Problem 4
 
@@ -69,13 +154,62 @@ call, $X$ is the number of copiers serviced and $Y$ is the total number of minut
 person.
 
 - Obtain the estimated regression function. 
+
+```{python}
+df = pd.read_csv("CH01PR20.csv")
+y, x = df["minutes"], df["copiers"]
+X = sm.add_constant(x)
+model = sm.OLS(y, X).fit()
+```
+
 - Plot the estimated regression function and the data. How well does the estiimated regression fucntion fit the data?
+
+**Answer:** The model seems to fit well the data given that the points are very closed to the prediction line
+
+```{python}
+plt.scatter(x, y)
+plt.plot(x, X @ model.params)
+plt.show()
+```
+
 - Interpret $\hat{\beta}_0$ in your estimated regression function. Does $\hat{\beta}_0$ provide any relevant information here? Explain?
+
+**Answer**: $\hat{\beta}_0$ is the estimated time required to service a copier when $X = 0$. 
+
 - Obtain a point estimate of the mean service time when $X = 5$ copiers are serviced. 
+
+```{python}
+y_hat = model.params[0] + model.params[1] * 5
+print("y_hat:", y_hat)
+```
+
 - Estimate the change in the mean service time when the number of copiers serviced increased by one. Use a 90 percent confidence interval.
   interpret you confidence interval. 
+
+```{python}
+betas_hat = model.params
+var_beta = model.cov_params()
+df = model.df_resid
+t = stats.t
+qt_v = t.ppf(1 - 0.1 / 2, df)
+ci_slope = [
+round(float(betas_hat[1] - qt_v * np.sqrt(var_beta[1][1])),3),
+round(float(betas_hat[1] + qt_v * np.sqrt(var_beta[1][1])),3),
+]
+print("90% CI for Slope:", ci_slope)
+```
+
 - Conduct a $t$ test to determine whether or not there is a linear association between $X$ and $Y$ here; $\alpha = 0.1$. State the 
   alternative, decision rule, and conclusion. What is the p-value of your test?
+
+
+```{python}
+t_star = betas_hat[1] / np.sqrt(var_beta[1][1])
+p_value = 2 * (1 - t.cdf(np.abs(t_star), df))
+print("t*:", round(t_star, 4))
+print("p-value:", round(p_value, 4))
+```
+
 - Are your results in parts (e) and (f) consistent? Explain.
 - The manufacturer has suggested that the mean required time should not increase by more
   than 14 minutes for each additional copier that is serviced on a service call. Conduct a test to
@@ -89,12 +223,39 @@ For each of the following questions, explain whether a confidence interval for a
 prediction interval for a new observation is appropriate
 
 - What will be the humidity level in this greenhouse tomorrow when we set the temperature
-level at $30^{\circ}C$?
+level at $31^{\circ}C$?
+
+```{python}
+df = pd.read_csv("CH01PR21.csv")
+y, x = df["humidity"], df["temperature"]
+X = sm.add_constant(x)
+model = sm.OLS(y, X).fit()
+
+y_hat = model.params[0] + model.params[1] * 31
+print(y_hat)
+```
+
 - How much do families whose disposable income is \$23,500 spend, on the average, for meals
 away from home
+
+```{python}
+df = pd.read_csv("CH01PR28.csv")
+y, x = df["meals"], df["income"]
+X = sm.add_constant(x)
+model = sm.OLS(y, X).fit()
+y_hat = model.params[0] + model.params[1] * 23500
+print(y_hat)
+```
+
 - How many kilowatt-hours of electricity will be consumed next month by commercial and
 industrial users in the Twin Cities service area, given that the index of business activity for
 the area remains at its present level?
+
+```{python}
+df = pd.read_csv("CH01PR20.csv")
+y, x = df["minutes"], df["copiers"]
+X = sm.add_constant(x)
+```
 
 # Problem 6
 A criminologist studying the relationship between level of education-and crime rate in medium-
@@ -104,24 +265,91 @@ rate (crimes reported per $100,000$ residents) last year. Assume that the normal
 appropriate.
 
 - Set up the ANOVA table.
+
+```{python}
+df = pd.read_csv("CH01PR28.csv")
+y, x = df["crime"], df["graduates"]
+X = sm.add_constant(x)
+model = sm.OLS(y, X).fit()
+anova_table = sm.stats.anova_lm(model, typ=2)
+print(anova_table)
+```
+
 - Test whether or not there is a linear association between crime rate and percentage of high school graduates,
   by the $F$ test. Is the p-value for the $F$ test the same as that for the $t$ test?
+
+```{python}
+f_star = (model.mse_model / model.mse_resid)
+p_value = 1 - stats.f.cdf(f_star, model.df_model, model.df_resid)
+print("F*:", f_star)
+print("p-value:", p_value)
+```
+
 - By how much is the total variation in crime rate reduced when percentage of high school
   graduates is introduced into the analysis? Is this a relatively large or small reduction?
+
+
 - Compute the Pearson product-moment correlation coefficient $r$.
+
+```{python}
+r = np.sqrt(model.rsquared)
+print("r:", r)
+```
+
 - est whether crime rate and percentage of high school graduates are statistically independent
   in the population; use $\alpha = 0.01$. State the alternatives, decision rule, and conclusion.
+
+```{python}
+t_star = betas_hat[1] / np.sqrt(var_beta[1][1])
+p_value = 2 * (1 - t.cdf(np.abs(t_star), df))
+print("t*:", round(t_star, 4))
+print("p-value:", round(p_value, 4))
+```
+
 - How do your estimates and conclusions in part (d) and (e) compare to those obtained in parts (a)
   and (b) respectively?
+
+
+
 - Compute the Spearman rank correlation coefficient $r_s$.
+
+```{python}
+rs = stats.spearmanr(x, y)
+print("rs:", rs)
+```
+
 - Test by means of the Spearman rank correlation coefficient whether an association exists
   between crime rate and percentage of high school graduates using test statistic and a level of
   significance 0.01. State the alternatives, decision rule, and conclusion.
+
+```{python}
+t_star = betas_hat[1] / np.sqrt(var_beta[1][1])
+p_value = 2 * (1 - t.cdf(np.abs(t_star), df))
+print("t*:", round(t_star, 4))
+print("p-value:", round(p_value, 4))
+```
+
 - How do your estimates and conclusions in parts (g) and (h) compare to those obtained in parts
   (d) and (e), respectively?
+
+
 - Computer the Kendall's tau correlation coefficient $\hat{\tau}$.
+
+```{python}
+tau, p_value = stats.kendalltau(x, y)
+print("tau:", tau)
+```
+
 - Test by means of the Kendall’s tau, correlation coefficient whether an association exists between
   crime rate and percentage of high school graduates using test statistic and a level of significance
   0.01. State the alternatives, decision rule, and conclusion.
-- ow do your estimates and conclusions in parts (j) and (k) compare to those obtained in parts
+
+```{python}
+t_star = betas_hat[1] / np.sqrt(var_beta[1][1])
+p_value = 2 * (1 - t.cdf(np.abs(t_star), df))
+print("t*:", round(t_star, 4))
+print("p-value:", round(p_value, 4))
+```
+
+- How do your estimates and conclusions in parts (j) and (k) compare to those obtained in parts
 (d), (e), (g), and (h) respectively?
