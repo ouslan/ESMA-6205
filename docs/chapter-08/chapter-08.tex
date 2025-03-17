@@ -1,0 +1,109 @@
+\documentclass[10pt, oneside]{article}
+\usepackage{amsmath, amsthm, amssymb, calrsfs, wasysym, verbatim, bbm, color, graphics, geometry}
+
+\geometry{tmargin=.75in, bmargin=.75in, lmargin=.75in, rmargin = .75in}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Cdot}{\boldsymbol{\cdot}}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{defn}{Definition}
+\newtheorem{conv}{Convention}
+\newtheorem{rem}{Remark}
+\newtheorem{lem}{Lemma}
+\newtheorem{cor}{Corollary}
+
+
+\title{ESMA 6205: Multiple Linerar Regression}
+\author{Alejandro Ouslan}
+\date{Spring 2025}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\vspace{.25in}
+
+\section{Introduction}
+
+\section{Model Diagnostic}
+\begin{enumerate}
+	\item It is possible that all of the predictors are associateded with the
+	      repsonse, but it is more often the case that the response is only related to a
+	      subset of the predictor.
+	\item The task of determining which predictors are associated with the
+	      reponce, in order to fit a single model involving only those predictors,
+	      is referred to as variable selection.
+	\item All subset regressions tests all posssibel subsets of the set of potebtial
+	      independent variables. If there are $K$ potential independent variables
+	      (beside the contant), then there are $2^K$ distinct subsets of them to be tested.
+\end{enumerate}
+
+\section{Model Selection}
+
+We can then select the best model out of all of the models that we have considered. How
+do we determine which model is best?
+
+\begin{enumerate}
+	\item Mallow's $C_p$
+	\item Beyesian Information Criterion (BIC)
+	\item Akaike's Information Criterion (AIC)
+	\item Adjusted $R^2$
+\end{enumerate}
+
+\subsection{Mallow's $C_p$}
+
+Malllow's $C_p$ value is given by.
+\[
+	C_p = \frac{SSE_P}{\hat{\sigma}^2} - (n - 2p)
+\]
+
+where $SSE_P$ is the sums of square of the error with $p$ predictors and
+$\hat{\sigma}^2$ is the estimated mean squared error
+
+\begin{enumerate}
+	\item $SSE_P = \sum_{i=1}^n (y_i - \hat{y}_i)^2$
+	\item $\hat{\sigma}^2 =$ MMSE of the model
+\end{enumerate}
+
+\subsection{Introductionu to the likelihood funtion}
+
+snuppose that $y= X\beta + \epsilon$ where $\epsilon \sim N(0, \sigma^2I_n)$
+
+\begin{enumerate}
+	\item $\epsilon \sim N(0, \sigma^2I_n) \leftrightarrow y \sim N(X\beta, \sigma^2I_n)$
+	      \[
+		      \begin{split}
+			      f(y|X \beta, \sigma^2) &= (2\pi)^{-n/2}|\sigma^2I_n|^{-1/2} \exp\left(-\frac{1}{2\sigma^2}(y - X\beta)^T(y - X\beta)\right) \\
+			      &= \max f (y|X \beta, \sigma^2) \\
+			      &= \log f(y|X \beta, \sigma^2) \\
+			      &= \max \log f(y|X \beta, \sigma^2) \\
+			      &= \log(\hat{\theta}) = \max \log f(y|X \beta, \sigma^2) \\
+		      \end{split}
+	      \]
+	\item We are looking the ver
+\end{enumerate}
+
+\subsection{Akaike's Information Criterion (AIC)}
+
+The AIC is given by
+\[
+	AIC = -2\log(\hat{\theta}) + 2p \rightarrow \log f(y| \hat{\theta}) + 2p
+\]
+
+\subsection{Bayesian Information Criterion (BIC)}
+
+The BIC is given by
+
+\[
+	BIC = -2\log(\hat{\theta}) + p\log(n)
+\]
+
+\section{Example: Rat population}
+
+\end{document}
